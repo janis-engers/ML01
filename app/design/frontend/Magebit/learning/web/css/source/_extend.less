@@ -1,15 +1,4 @@
 & when (@media-common = true) {
-    .page-wrapper:before {
-        position:fixed;
-        bottom: 0;
-        left: 0;
-        background: black;
-        padding: 5px;
-        border-radius: 0 3px 0 0;
-        color: #fff;
-        z-index: 1000;
-    }
-
     .page-layout-1column.type-simple {
 
         .product.media {
@@ -487,8 +476,6 @@
 
 & when (@media-target = 'mobile'), (@media-target = 'all') {
     @media only screen and (max-width: 420px) {
-        .page-wrapper:before {content: '@screen__xs + <420'}
-
         .page-layout-1column.type-simple {
             .related-products-container .block.related .content .products ol.items {
                 grid-template-columns: repeat(1, 1fr) !important;
@@ -497,10 +484,7 @@
     }
 }
 
-
 .media-width(@extremum, @break) when (@extremum = 'max') and (@break = @screen__s) {
-    .page-wrapper:before {content: '@screen__xs'}
-
     .page-layout-1column.type-simple {
         .product-info-main {
             .block.upsell .products-upsell ol.items li.product-item .product-item-info {
@@ -527,8 +511,6 @@
 }
 
 .media-width(@extremum, @break) when (@extremum = 'max') and (@break = @screen__m) {
-    .page-wrapper:before {content: '@screen__s'}
-
     .page-layout-1column.type-simple {
         .product-info-main {
             .block.upsell .products-upsell ol.items li.product-item .product-item-info {
@@ -558,8 +540,6 @@
 & when (@media-target = 'desktop'), (@media-target = 'all') {
     //.media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__m)
     @media all and (min-width: @screen__m), print {
-        .page-wrapper:before {content: '@screen__m'}
-
         .page-layout-1column.type-simple {
             .product-info-main {
                 .block.upsell .products-upsell ol.items li.product-item .product-item-info {
@@ -583,8 +563,6 @@
 
     //.media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__l)
     @media all and (min-width: @screen__l), print {
-        .page-wrapper:before {content: '@screen__l'}
-
         .page-layout-1column.type-simple {
             .product.media {
                 width: 51.614%;
@@ -639,10 +617,6 @@
 
     //.media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__xl)
     @media all and (min-width: @screen__xl), print {
-        .page-wrapper:before {
-            content: '@screen__xl'
-        }
-
         .page-layout-1column.type-simple .related-products-container .block.related .content .products ol.items {
             gap: 30px;
         }
