@@ -1,0 +1,18 @@
+<!--
+/**
+ * This file is part of the Magebit package.
+ *
+ * @copyright Copyright (c) 2025 Magebit, Ltd. (https://magebit.com/)
+ * @license   GNU General Public License ("GPL") v3.0
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+-->
+<theme xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Config/etc/theme.xsd">
+    <title>Magebit Learning</title>
+    <parent>Magento/luma</parent>
+    <media>
+        <preview_image>media/preview.png</preview_image>
+    </media>
+</theme>

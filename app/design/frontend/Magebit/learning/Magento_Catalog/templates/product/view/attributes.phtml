@@ -1,0 +1,63 @@
+<?php
+/**
+ * This file is part of the Magebit package.
+ *
+ * @copyright Copyright (c) 2025 Magebit, Ltd. (https://magebit.com/)
+ * @license   GNU General Public License ("GPL") v3.0
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
+// phpcs:disable Magento2.Templates.ThisInTemplate.FoundThis
+
+/**
+ * Product additional attributes template
+ *
+ * @var $block \Magento\Catalog\Block\Product\View\Attributes
+ */
+?>
+<?php
+    $_helper = $this->helper(Magento\Catalog\Helper\Output::class);
+    $_product = $block->getProduct();
+?>
+<?php if ($_additional = $block->getAdditionalData()) :?>
+    <?php if ($_product->getTypeId() == 'simple') :?>
+        <div class="additional-attributes-wrapper">
+            <?php
+            $priority = ['dimensions', 'color', 'material'];
+
+            uksort($_additional, function($a, $b) use ($priority) {
+                $aScore = in_array($a, $priority) ? array_search($a, $priority) : 3;
+                $bScore = in_array($b, $priority) ? array_search($b, $priority) : 3;
+                return $aScore <=> $bScore;
+            });
+
+            $_additionalFiltered = array_slice($_additional, 0, 3, true);
+
+            ?>
+            <ul>
+            <?php foreach ($_additionalFiltered as $_data) :?>
+                <li>
+                    <span class="label"><?= $block->escapeHtml($_data['label']) ?>: </span>
+                    <span class="data"><?= /* @noEscape */ $_helper->productAttribute($_product, $_data['value'], $_data['code']) ?></span>
+                </li>
+            <?php endforeach; ?>
+            </ul>
+        </div>
+    <?php else:?>
+        <div class="additional-attributes-wrapper table-wrapper">
+            <table class="data table additional-attributes" id="product-attribute-specs-table">
+                <caption class="table-caption"><?= $block->escapeHtml(__('More Information')) ?></caption>
+                <tbody>
+                <?php foreach ($_additional as $_data) :?>
+                    <tr>
+                        <th class="col label" scope="row"><?= $block->escapeHtml($_data['label']) ?></th>
+                        <td class="col data" data-th="<?= $block->escapeHtmlAttr($_data['label']) ?>"><?= /* @noEscape */ $_helper->productAttribute($_product, $_data['value'], $_data['code']) ?></td>
+                    </tr>
+                <?php endforeach; ?>
+                </tbody>
+            </table>
+        </div>
+    <?php endif;?>
+<?php endif;?>

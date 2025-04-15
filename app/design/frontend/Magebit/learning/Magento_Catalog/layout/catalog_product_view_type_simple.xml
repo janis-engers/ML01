@@ -1,0 +1,46 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * This file is part of the Magebit package.
+ *
+ * @copyright Copyright (c) 2025 Magebit, Ltd. (https://magebit.com/)
+ * @license   GNU General Public License ("GPL") v3.0
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+-->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+         <attribute name="class" value="type-simple"/>
+
+        <move element="product.info.upsell" destination="product.info.main" after="product.info.form.content"/>
+        <referenceBlock name="product.info.extrahint" remove="true"/>
+        <move element="product.info.sku" destination="product.info.stock.sku" before="-"/>
+        <move element="product.info.type" destination="product.info.addtocart"/>
+        <referenceContainer name="product.info.main">
+            <container name="product.info.detailscontainer" htmlTag="div" htmlClass="product-info-details-container" after="product.info.price"></container>
+        </referenceContainer>
+        <move element="product.attributes" destination="product.info.detailscontainer" before="-"/>
+        <move element="product.info.overview" destination="product.info.detailscontainer" after="product.attributes"/>
+
+
+
+        <referenceBlock name="product.info.details" remove="true"/>
+
+        <referenceContainer name="content">
+            <container name="product.relatedproductscontainer" htmlTag="div" htmlClass="related-products-container" after="product.info.main"></container>
+        </referenceContainer>
+        <move element="catalog.product.related" destination="product.relatedproductscontainer"/>
+
+        <referenceBlock name="content">
+            <block class="Magento\Framework\View\Element\Template" name="custom.modal.block" template="Magento_Catalog::product/view/reviewsmodal.phtml">
+                <block class="Magento\Review\Block\Form" name="product.review.form" as="review_form" ifconfig="catalog/review/active">
+                    <container name="product.review.form.fields.before" as="form_fields_before" label="Review Form Fields Before" htmlTag="div" htmlClass="rewards"/>
+                </block>
+                <block class="Magento\Review\Block\Product\View\ListView" name="product.info.product_additional_data" as="product_additional_data" template="Magento_Review::product/view/list.phtml" ifconfig="catalog/review/active" before="-"/>
+                <block class="Magento\Theme\Block\Html\Pager" name="product_review_list.toolbar" ifconfig="catalog/review/active" after="product.info.product_additional_data"/>
+            </block>
+        </referenceBlock>
+    </body>
+</page>

@@ -1,0 +1,114 @@
+<?php
+/**
+ * This file is part of the Magebit package.
+ *
+ * @copyright Copyright (c) 2025 Magebit, Ltd. (https://magebit.com/)
+ * @license   GNU General Public License ("GPL") v3.0
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
+/** @var $block \Magento\Catalog\Block\Product\View */
+
+?>
+<?php $_product = $block->getProduct(); ?>
+<?php $buttonTitle = __('Add to Cart'); ?>
+<?php $childBlocksToRender = $block->getChildNames(); ?>
+<?php if ($_product->isSaleable()) :?>
+<div class="box-tocart">
+    <div class="fieldset">
+        <?php if ($block->shouldRenderQuantity()) :?>
+            <?php if ($_product->getTypeId() == 'simple') :?>
+            <div class="qty-stock-wrapper">
+                <div class="field qty">
+                    <div id="qty-counter" data-bind="scope:'qtyCounter'">
+                        <!-- ko template: getTemplate() --><!-- /ko -->
+                        <script type="text/x-magento-init">
+                            {
+                                "#qty-counter": {
+                                    "Magento_Ui/js/core/app": {
+                                        "components": {
+                                            "qtyCounter": {
+                                                "component": "js/qty-counter",
+                                                "params": {
+                                                    "name": "qty",
+                                                    "id": "qty",
+                                                    "class": "input-text qty",
+                                                    "value": "<?= $block->escapeJs($block->getProductDefaultQty() * 1) ?>",
+                                                    "title": "<?= $block->escapeJs($block->escapeHtmlAttr(__('Qty'))) ?>",
+                                                    "validate=": "<?= $block->escapeJs($block->escapeHtml(json_encode($block->getQuantityValidators()))) ?>"
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        </script>
+                    </div>
+                </div>
+                <?php
+                if (($key = array_search('product.info.type', $childBlocksToRender)) !== false) {
+                    unset($childBlocksToRender[$key]);
+                }
+                ?>
+                <div class="stock-info">
+                    <?= $block->getChildHtml('product.info.type') ?>
+                    <?php
+                    $stockItem = $_product->getExtensionAttributes()->getStockItem();
+
+                    if ($stockItem && $stockItem->getIsInStock()) {
+                        $qty = (int) $stockItem->getQty();
+                        $label = $qty === 1 ? __('item available') : __('items available');
+
+                        ?>
+                        <div class="items-available-count">
+                            <span><?= $qty ?></span>
+                            <?= $block->escapeHtml($label) ?>
+                        </div>
+                        <?php
+                    }
+                    ?>
+                </div>
+            </div>
+            <?php else: ?>
+            <div class="field qty">
+                <label class="label" for="qty"><span><?= $block->escapeHtml(__('Qty')) ?></span></label>
+                <div class="control">
+                    <input type="number"
+                        name="qty"
+                        id="qty"
+                        min="0"
+                        value="<?= $block->getProductDefaultQty() * 1 ?>"
+                        title="<?= $block->escapeHtmlAttr(__('Qty')) ?>"
+                        class="input-text qty"
+                        data-validate="<?= $block->escapeHtml(json_encode($block->getQuantityValidators())) ?>"
+                        />
+                </div>
+            </div>
+            <?php endif; ?>
+        <?php endif; ?>
+
+        <div class="actions">
+            <button type="submit"
+                    title="<?= $block->escapeHtmlAttr($buttonTitle) ?>"
+                    class="action primary tocart"
+                    id="product-addtocart-button" disabled>
+                <span><?= $block->escapeHtml($buttonTitle) ?></span>
+            </button>
+            <?php
+            foreach ($childBlocksToRender as $childName) {
+                echo $block->getChildHtml($childName);
+            }
+            ?>
+        </div>
+    </div>
+</div>
+<?php endif; ?>
+<script type="text/x-magento-init">
+    {
+        "#product_addtocart_form": {
+            "Magento_Catalog/js/validate-product": {}
+        }
+    }
+</script>

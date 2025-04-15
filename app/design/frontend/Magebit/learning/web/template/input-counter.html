@@ -1,0 +1,7 @@
+<div class="qty-counter">
+    <button type="button" data-bind="click: decrement">&ndash;</button>
+    <input type="number"
+        data-bind="value: qty, attr: {min: params.min, id: params.id, name: params.name, title: params.title, 'data-validate': params.validate
+        }" />
+    <button type="button" data-bind="click: increment">+</button>
+</div>
