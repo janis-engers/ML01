@@ -1,0 +1,22 @@
+<?php
+/** @var \Magebit\PageListWidget\Block\Widget\PageList $block */
+
+$pages = $block->getPages();
+?>
+
+<?php if (!empty($pages)): ?>
+    <?php if ($title = $block->getTitle()): ?>
+        <h3><?= $escaper->escapeHtml($title); ?></h3>
+    <?php endif; ?>
+    <ul>
+        <?php foreach ($pages as $pageIdentifier): ?>
+            <?php if ($page = $block->getPageData($pageIdentifier)): ?>
+                <li>
+                    <a href="<?= $escaper->escapeUrl($page['url']) ?>">
+                        <?= $escaper->escapeHtml($page['title']) ?>
+                    </a>
+                </li>
+            <?php endif; ?>
+        <?php endforeach; ?>
+    </ul>
+<?php endif; ?>
