@@ -19,7 +19,7 @@ declare(strict_types=1);
 
 namespace Magebit\Faq\Block;
 
-use Magebit\Faq\Model\QuestionRepository;
+use Magebit\Faq\Api\QuestionRepositoryInterface as QuestionRepository;
 use Magento\Framework\Api\SearchCriteriaBuilder;
 use Magento\Framework\Api\SortOrder;
 use Magento\Framework\Api\SortOrderBuilder;
