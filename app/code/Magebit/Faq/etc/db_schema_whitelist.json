@@ -1,0 +1,18 @@
+{
+  "vendor_faqs": {
+    "column": {
+      "id": true,
+      "question": true,
+      "answer": true,
+      "status": true,
+      "position": true,
+      "updated_at": true
+    },
+    "index": {
+      "VENDOR_FAQS_ID": true
+    },
+    "constraint": {
+      "PRIMARY": true
+    }
+  }
+}

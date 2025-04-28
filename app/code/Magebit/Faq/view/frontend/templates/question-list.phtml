@@ -1,0 +1,40 @@
+<?php declare(strict_types=1);
+/**
+ * This file is part of the Magebit_Faq package
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magebit_Faq
+ * to newer versions in the future.
+ *
+ * @copyright Copyright (c) 2025 Magebit (https://magebit.com/)
+ * @author    Janis Engers <info@magebit.com>
+ * @license   GNU General Public License ("GPL") v3.0
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+?>
+<div id="magebit-faq">
+    <h1><?= $escaper->escapeHtml(__('Frequently Asked Questions')); ?></h1>
+    <ul>
+    <?php foreach ($block->getItems() as $item): ?>
+        <li>
+            <h2><?= $escaper->escapeHtml($item->getQuestion()); ?></h2>
+            <p><?= $escaper->escapeHtml($item->getAnswer()); ?></p>
+        </li>
+    <?php endforeach; ?>
+  </ul>
+</div>
+<script>
+    require([
+        'jquery',
+        'domReady!'
+    ], function($){
+        $('#magebit-faq ul li h2').on('click', function(){
+            $(this).closest('li').find('p').slideToggle();
+        });
+    });
+
+</script>
+
