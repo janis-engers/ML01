@@ -13,10 +13,12 @@ declare(strict_types=1);
 
 namespace Magebit\PageListWidget\Block\Widget;
 
+use Magento\Cms\Api\Data\PageInterface;
+use Magento\Cms\Api\PageRepositoryInterface as PageRepository;
+use Magento\Cms\Helper\Page as PageHelper;
+use Magento\Framework\Api\SearchCriteriaBuilder;
 use Magento\Framework\View\Element\Template;
 use Magento\Widget\Block\BlockInterface;
-use Magento\Cms\Model\PageFactory;
-use Magento\Cms\Helper\Page as PageHelper;
 
 /**
  * Block responsible for displaying list of CMS page links.
@@ -26,9 +28,17 @@ class PageList extends Template implements BlockInterface
     /** @var string */
     protected $_template = 'page-list.phtml';
 
+    /**
+     * @param Template\Context $context
+     * @param PageRepository $pageRepository
+     * @param SearchCriteriaBuilder $searchCriteriaBuilder
+     * @param PageHelper $pageHelper
+     * @param array $data
+     */
     public function __construct(
         Template\Context $context,
-        private PageFactory $pageFactory,
+        private PageRepository $pageRepository,
+        private SearchCriteriaBuilder $searchCriteriaBuilder,
         private PageHelper $pageHelper,
         array $data = []
     ) {
@@ -48,15 +58,18 @@ class PageList extends Template implements BlockInterface
     /**
      * Get list of CMS page identifiers from widget configuration.
      *
-     * @return string[]
+     * @return PageInterface[]
      */
     public function getPages(): array
     {
-        if ($pages = $this->getData('selected_pages')) {
-            return explode(',', $pages);
-        }
+        $pages = $this->getData('selected_pages');
 
-        return [];
+        $searchCriteria = $this->searchCriteriaBuilder
+            ->addFilter('identifier', $pages, 'in')
+            ->create();
+
+        $items = $this->pageRepository->getList($searchCriteria);
+        return $items->getItems();
     }
 
     /**
@@ -64,19 +77,10 @@ class PageList extends Template implements BlockInterface
      *
      * @param string $identifier
      *
-     * @return array|null
+     * @return string|null
      */
-    public function getPageData(string $identifier): ?array
+    public function getPageUrl(string $identifier): ?string
     {
-        $page = $this->pageFactory->create()->load($identifier, 'identifier');
-
-        if (!$page->getId()) {
-            return null;
-        }
-
-        return [
-            'title' => $page->getTitle(),
-            'url' => $this->pageHelper->getPageUrl($identifier),
-        ];
+        return $this->pageHelper->getPageUrl($identifier);
     }
 }

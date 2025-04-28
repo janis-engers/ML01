@@ -9,11 +9,11 @@ $pages = $block->getPages();
         <h3><?= $escaper->escapeHtml($title); ?></h3>
     <?php endif; ?>
     <ul>
-        <?php foreach ($pages as $pageIdentifier): ?>
-            <?php if ($page = $block->getPageData($pageIdentifier)): ?>
+        <?php foreach ($pages as $page): ?>
+            <?php if ($page->getId()): ?>
                 <li>
-                    <a href="<?= $escaper->escapeUrl($page['url']) ?>">
-                        <?= $escaper->escapeHtml($page['title']) ?>
+                    <a href="<?= $escaper->escapeUrl($block->getPageUrl($page->getIdentifier())) ?>">
+                        <?= $escaper->escapeHtml($page->getTitle()) ?>
                     </a>
                 </li>
             <?php endif; ?>

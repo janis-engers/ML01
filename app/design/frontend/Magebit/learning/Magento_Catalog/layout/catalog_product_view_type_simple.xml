@@ -24,8 +24,6 @@
         <move element="product.attributes" destination="product.info.detailscontainer" before="-"/>
         <move element="product.info.overview" destination="product.info.detailscontainer" after="product.attributes"/>
 
-
-
         <referenceBlock name="product.info.details" remove="true"/>
 
         <referenceContainer name="content">
